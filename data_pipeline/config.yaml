@@ -1,8 +1,8 @@
 tables:
   green_tripdata:
     raw_data_path: D:\nyc-taxi-data-pipeline\raw_data_csv\green_tripdata_2018-01.csv
-    output_path_parquet: D:\nyc-taxi-data-pipeline\output_parquet\green_tripdata_2018-01
-    output_path_avro: D:\nyc-taxi-data-pipeline\output_avro\green_tripdata_2018-01
+    output_path_parquet: D:\nyc-taxi-data-pipeline\output_parquet\taxi_type=green
+    output_path_avro: D:\nyc-taxi-data-pipeline\output_avro\taxi_type=green
     schema:
       VendorID:
         type: int

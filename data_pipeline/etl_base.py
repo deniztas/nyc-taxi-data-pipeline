@@ -61,14 +61,14 @@ class EtlBase():
 
         logging.info(f"saving output to {self.output_path_parquet} and {self.output_path_avro}")
 
-        self.write(file_type="parquet")
-        self.write(file_type="avro")
+        self.write(output_path=self.output_path_parquet, file_type="parquet")
+        self.write(output_path=self.output_path_avro, file_type="avro")
         logging.info("saved")
 
-    def write(self, file_type: str):
+    def write(self, file_type: str, output_path: str):
         write_data(
             df=self.raw_data,
-            output_path=self.output_path_parquet,
+            output_path=output_path,
             file_type=file_type,
             partition_number=1,
             folder_partition=["year", "month", "day", "hour"])
