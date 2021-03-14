@@ -1,11 +1,3 @@
-"""
-This script runs prep feed data
-
-Following are expected as command line arguments
-    - customer-config-path
-    - raw-data-path
-    - config-section
-"""
 import logging
 
 from pyspark.sql.utils import AnalysisException
@@ -101,7 +93,8 @@ def convert_to_boolean(df: DataFrame):
 
     return df.withColumn(
         "store_and_fwd_flag",
-        F.when(F.col("store_and_fwd_flag") == "N", False).otherwise(True)
+        F.when(F.col("store_and_fwd_flag") == "N", False).otherwise(True))
+
 
 if __name__ == "__main__":
 
