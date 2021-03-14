@@ -6,9 +6,9 @@ tables:
     schema:
       VendorID:
         type: int
-      lpep_pickup_datetime:
+      pep_pickup_datetime:
         type: DateTime
-      lpep_dropoff_datetime:
+      pep_dropoff_datetime:
         type: DateTime
       store_and_fwd_flag:
         type: boolean
@@ -49,9 +49,9 @@ tables:
     schema:
       VendorID:
         type: int
-      tpep_pickup_datetime:
+      pep_pickup_datetime:
         type: DateTime
-      tpep_dropoff_datetime:
+      pep_dropoff_datetime:
         type: DateTime
       store_and_fwd_flag:
         type: boolean
