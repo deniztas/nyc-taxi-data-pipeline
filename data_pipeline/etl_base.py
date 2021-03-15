@@ -78,9 +78,10 @@ class EtlBase():
         """
 
     def apply_logic(self):
+        """Partition data
         """
-        Partition data
-        """
+        raise NotImplementedError("This is default function."
+                                  " It must be overriden.")
 
     def partition_columns(self):
         """Seperate date time column to number of week day

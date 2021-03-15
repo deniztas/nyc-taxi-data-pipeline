@@ -1,4 +1,4 @@
-from data_pipeline.etl_base import EtlBase
+from etl_base import EtlBase
 
 
 class EtlYellowTaxi(EtlBase):
