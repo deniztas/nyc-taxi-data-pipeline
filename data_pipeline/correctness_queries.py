@@ -27,10 +27,10 @@ def calculate_average_velocity_for_each_taxi_type(df: DataFrame):
     return df
 
 
-def get_day_of_week_has_min_customer_count(df: DataFrame):
+def get_day_of_week_has_min_passenger_count(df: DataFrame):
 
-    df = df.where(F.col("customer_count") == 1)
-    min_count_all = df.groupBy(["customer_count", "year", "day"]).count()
+    df = df.where(F.col("passenger_count") == 1)
+    min_count_all = df.groupBy(["year", "day"]).count()
 
     min_count_per_year = (
         min_count_all.groupBy(["year"]).agg(F.min("count").alias("count"))

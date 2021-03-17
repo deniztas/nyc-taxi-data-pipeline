@@ -11,9 +11,9 @@ class TestCorrectnessQueries(unittest.TestCase):
     """Test class that contains unittests for
     data_pipeline.correctness_queries library"""
 
-    def test_get_day_of_week_has_min_customer_count(self):
+    def test_get_day_of_week_has_min_passenger_count(self):
         """Test if
-        data_pipeline.correctness_queries.get_day_of_week_has_min_customer_count
+        data_pipeline.correctness_queries.get_day_of_week_has_min_passenger_count
         works properly"""
 
         test_df_data = [
@@ -38,7 +38,7 @@ class TestCorrectnessQueries(unittest.TestCase):
             (4, "2020", "9", "4")
         ]
         test_df_schema = StructType([
-            StructField("customer_count", IntegerType(), False),
+            StructField("passenger_count", IntegerType(), False),
             StructField("year", StringType(), False),
             StructField("week", StringType(), False),
             StructField("day", StringType(), False)
@@ -61,7 +61,7 @@ class TestCorrectnessQueries(unittest.TestCase):
             schema=expected_df_schema,
         )
         actual_df = \
-            correctness_queries.get_day_of_week_has_min_customer_count(test_df)
+            correctness_queries.get_day_of_week_has_min_passenger_count(test_df)
 
         expected_count = expected_df.count()
         equal_count = actual_df.join(
@@ -97,7 +97,7 @@ class TestCorrectnessQueries(unittest.TestCase):
             (4, "2020", "11", "12"),
         ]
         test_df_schema = StructType([
-            StructField("customer_count", IntegerType(), False),
+            StructField("passenger_count", IntegerType(), False),
             StructField("year", StringType(), False),
             StructField("week", StringType(), False),
             StructField("hour", StringType(), False)

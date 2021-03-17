@@ -1,22 +1,28 @@
 from etl_base import EtlBase
+from pyspark.sql import DataFrame
 
 
 class EtlYellowTaxi(EtlBase):
 
-    def update_columns(self):
-        super().__init__(config_section="green_tripdata")
-        self.raw_data = (
-             self.raw_data
-             .withColumnRenamed("tpep_pickup_datetime", "pep_pickup_datetime")
-             .withColumnRenamed("tpep_dropoff_datetime", "pep_dropoff_datetime")
-        )
+    def __init__(self, table_name: str):
+        super().__init__(table_name=table_name)
+        self.transformers = [
+            self.rename_columns,
+            self.seperate_date_columns,
+            self.convert_to_boolean,
+        ]
 
-    def apply_logic(self):
-        self.update_columns()
-        self.partition_columns()
-        self.convert_to_boolean()
+    def rename_columns(self, data: DataFrame):
+        """Transformer: Rename columns starting with 't'."""
+        data = (
+            data
+            .withColumnRenamed("tpep_pickup_datetime", "pep_pickup_datetime")
+            .withColumnRenamed(
+                "tpep_dropoff_datetime", "pep_dropoff_datetime")
+        )
+        return data
 
 
 if __name__ == '__main__':
-    instance = EtlYellowTaxi(config_section="yellow_tripdata")
-    instance.pre_etl()
+    instance = EtlYellowTaxi(table_name='yellow_tripdata')
+    instance.run_etl()
