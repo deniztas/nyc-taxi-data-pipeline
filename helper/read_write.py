@@ -123,7 +123,7 @@ def write_data(
     if folder_partition:
         df.write.format(file_type).partitionBy(folder_partition).save(
             output_path,
-            mode="overwrite"
+            mode="append"
         )
     else:
-        df.write.format(file_type).save(output_path, mode="overwrite")
+        df.write.format(file_type).save(output_path, mode="append")

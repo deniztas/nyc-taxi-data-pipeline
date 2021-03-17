@@ -35,6 +35,7 @@ class EtlBase():
         self.tlc_dir = table_schema.get("tlc_dir")
         self.local_dir = table_schema.get("local_dir")
         self.file_format = table_schema.get("file_format")
+        self.data_year = None
 
     def run_etl(self):
         self.run_extract()
@@ -52,7 +53,7 @@ class EtlBase():
             year = (self.current_year - 1) - retention_year
             month = (self.current_month + 12) - retention_month
 
-        self.raw_file_names = []
+        self.raw_file_names_and_year = []
         for _ in range(self.data_retention):
             if month == 12:
                 month = 1
@@ -65,7 +66,7 @@ class EtlBase():
                 .replace("MONTH",
                          str(month) if month >= 10 else "0" + str(month))
             )
-            self.raw_file_names.append(raw_data_name)
+            self.raw_file_names_and_year.append((raw_data_name, year))
             tlc_path = self.tlc_dir + raw_data_name
             local_path = self.local_dir + raw_data_name
 
@@ -80,21 +81,22 @@ class EtlBase():
                 logging.warn(f"{tlc_path} is downloaded.")
 
         for filename in os.listdir(self.local_dir):
-            if filename not in self.raw_file_names:
+            if filename not in [name_year[0] for name_year in self.raw_file_names_and_year]:
                 logging.warn(f"[Not really removing yet] Removing old file: {filename}")
 
         logging.warn("run_extract completed")
 
     def run_transform_and_load(self, csv_delimiter: str = ","):
         """Transforms raw dataset to wanted output formats."""
-        if not self.raw_file_names:
+        if not self.raw_file_names_and_year:
             raise NameError("Empty file names. Make sure you run extraction step (run_extract).")
         if not self.transformers:
             raise NameError("Please define list of transformers.")
 
         # Iterate extracted dataset
-        for raw_file_name in self.raw_file_names:
+        for raw_file_name, year in self.raw_file_names_and_year:
             raw_data_path = self.local_dir + raw_file_name
+            self.data_year = year
 
             logging.info(f"Reading {raw_data_path}.")
             try:
@@ -151,6 +153,11 @@ class EtlBase():
         )
         return data
 
+    def remove_redundant_year_records(self, data: DataFrame):
+        """Filter data according to year"""
+        return data.filter(
+            F.year(F.col("pep_pickup_datetime")) == self.data_year)
+
     def convert_to_boolean(self, data: DataFrame):
         """Transformer: Converts store_and_fwd_flag to boolean."""
         data = data.withColumn(
@@ -160,9 +167,10 @@ class EtlBase():
 
     def validate_correctness(self):
         """Validate correctness of dataset."""
-        p = "D://nyc-taxi-data-pipeline//output_parquet"
         df = read_data(
-            raw_data_path=p,
+            raw_data_path=self.output_parquet_dir,
             file_type="parquet"
         )
        a = query.get_day_of_week_has_min_passenger_count(df)
+       b = query.get_top_3_bussiest_hours(df)
+       c = query.calculate_avarage_distance(df)
