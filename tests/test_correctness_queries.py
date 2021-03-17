@@ -1,23 +1,20 @@
+from datetime import datetime
 import unittest
 from pyspark.sql.types import (
-    StructType, StructField, StringType, IntegerType)
+    StructType, StructField, StringType, IntegerType, DoubleType)
 
 from data_pipeline import correctness_queries
 from spark import get_spark_session as spark
 
 
 class TestCorrectnessQueries(unittest.TestCase):
-    """
-    Test class that contains unittests for
-    data_pipeline.correctness_queries library
-    """
+    """Test class that contains unittests for
+    data_pipeline.correctness_queries library"""
 
     def test_get_day_of_week_has_min_customer_count(self):
-        """
-        Test if
+        """Test if
         data_pipeline.correctness_queries.get_day_of_week_has_min_customer_count
-        works properly
-        """
+        works properly"""
 
         test_df_data = [
             (1, "2019", "5", "2"),
@@ -77,11 +74,9 @@ class TestCorrectnessQueries(unittest.TestCase):
         self.assertEqual(equal_count, expected_count)
 
     def test_get_top_3_bussiest_hours(self):
-        """
-        Test if
+        """Test if
         data_pipeline.correctness_queries.get_top_3_bussiest_hours
-        works properly
-        """
+        works properly"""
         test_df_data = [
             (1, "2019", "5", "2"),
             (1, "2019", "4", "2"),
@@ -131,6 +126,53 @@ class TestCorrectnessQueries(unittest.TestCase):
         equal_count = actual_df.join(
             expected_df,
             on=["hour"],
+            how="inner"
+        ).count()
+
+        # compare pair details
+        self.assertEqual(equal_count, expected_count)
+
+    def test_calculate_average_velocity(self):
+        """Test if
+        data_pipeline.correctness_queries.calculate_average_velocity
+        works properly"""
+        test_df_data = [
+            ("yellow", datetime(2020, 5, 1, 00, 43, 55), datetime(2020, 5, 1, 00, 56, 23), 2.0),
+            ("yellow", datetime(2019, 5, 1, 00, 40, 45), datetime(2019, 5, 1, 00, 45, 40), 4.0),
+            ("yellow", datetime(2019, 5, 1, 00, 14, 55), datetime(2019, 5, 1, 00, 22, 46), 6.0),
+            ("yellow", datetime(2019, 5, 1, 00, 30, 28), datetime(2019, 5, 1, 00, 47, 48), 10.0),
+            ("green", datetime(2018, 5, 1, 00, 25, 56), datetime(2018, 5, 1, 00, 45, 7), 2.0),
+            ("green", datetime(2018, 5, 1, 00, 4, 50), datetime(2018, 5, 1, 00, 28, 9), 6.0),
+            ("green", datetime(2018, 5, 1, 00, 27, 11), datetime(2018, 5, 1, 00, 35, 22), 8.0),
+            ("green", datetime(2018, 5, 1, 00, 54, 45), datetime(2018, 5, 1, 1, 00, 6), 8.0),
+            ("green", datetime(2018, 5, 1, 15, 24, 45), datetime(2018, 5, 1, 15, 35, 6), 8.0),
+        ]
+        test_df_schema = ["taxi_type", "pep_pickup_datetime",
+                          "pep_dropoff_datetime", "distance"]
+        test_df = spark().createDataFrame(
+            test_df_data,
+            schema=test_df_schema,
+        )
+
+        expected_data = [
+            ("green", 43.29),
+            ("yellow", 34.73)
+        ]
+        expected_df_schema = StructType([
+            StructField("taxi_type", StringType(), False),
+            StructField("average_velocity", DoubleType(), False)
+        ])
+        expected_df = spark().createDataFrame(
+            expected_data,
+            schema=expected_df_schema,
+        )
+        actual_df = \
+            correctness_queries.calculate_average_velocity_for_each_taxi_type(test_df)
+
+        expected_count = expected_df.count()
+        equal_count = actual_df.join(
+            expected_df,
+            on=["taxi_type", "average_velocity"],
             how="inner"
         ).count()
 

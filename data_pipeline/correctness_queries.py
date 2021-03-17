@@ -1,9 +1,30 @@
+import datetime
 from pyspark.sql import DataFrame, functions as F
+from pyspark.sql.types import FloatType
 
 
-def calculate_avarage_distance(df: DataFrame):
-    # TODO
-    pass
+def calculate_average_velocity(start_time: datetime,
+                               end_time: datetime,
+                               distance: float):
+
+    return 3600 * distance / ((end_time - start_time).total_seconds())
+
+
+def calculate_average_velocity_for_each_taxi_type(df: DataFrame):
+
+    average_velocity_udf = F.udf(calculate_average_velocity, FloatType())
+    df = df.withColumn(
+        "average_velocity",
+        average_velocity_udf("pep_pickup_datetime",
+                             "pep_dropoff_datetime",
+                             "distance"))
+
+    df = (
+        df
+        .groupBy("taxi_type")
+        .agg(F.round(F.mean('average_velocity'), 2).alias("average_velocity"))
+    )
+    return df
 
 
 def get_day_of_week_has_min_customer_count(df: DataFrame):
