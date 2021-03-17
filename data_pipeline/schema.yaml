@@ -1,0 +1,85 @@
+tables:
+  green_tripdata:
+    taxi_type: green
+    tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data/
+    local_dir: D:\nyc-taxi-data-pipeline\raw_data_csv\
+    # TODO(deniztas): Test if yaml/omegaconf allows special characters, if so change to `green_tripdata_${YEAR}-${MONTH}.csv`
+    file_format: green_tripdata_YEAR-MONTH.csv
+    schema:
+      VendorID:
+        type: int
+      pep_pickup_datetime:
+        type: DateTime
+      pep_dropoff_datetime:
+        type: DateTime
+      store_and_fwd_flag:
+        type: boolean
+      RatecodeID:
+        type: int
+      PULocationID:
+        type: int
+      DOLocationID:
+        type: int
+      passenger_count:
+        type: int
+      trip_distance:
+        type: float
+      fare_amount:
+        type: int
+      extra:
+        type: float
+      mta_tax:
+        type: float
+      tip_amount:
+        type: float
+      tolls_amount:
+        type: float      
+      ehail_fee:
+        type: float
+      improvement_surcharge:
+        type: float
+      total_amount:
+        type: float
+      payment_type:
+        type: int
+      trip_type:
+        type: int
+  yellow_tripdata:
+    taxi_type: yellow
+    tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data/
+    local_dir: D:\nyc-taxi-data-pipeline\raw_data_csv\
+    # TODO(deniztas): Test if yaml/omegaconf allows special characters, if so change to `yellow_tripdata_${YEAR}-${MONTH}.csv`
+    file_format: yellow_tripdata_YEAR-MONTH.csv
+    schema:
+      VendorID:
+        type: int
+      pep_pickup_datetime:
+        type: DateTime
+      pep_dropoff_datetime:
+        type: DateTime
+      store_and_fwd_flag:
+        type: boolean
+      RatecodeID:
+        type: int
+      PULocationID:
+        type: int
+      DOLocationID:
+        type: int
+      passenger_count:
+        type: int
+      trip_distance:
+        type: float
+      fare_amount:
+        type: int
+      extra:
+        type: float
+      mta_tax:
+        type: float
+      tip_amount:
+        type: float
+      tolls_amount:
+        type: float
+      improvement_surcharge:
+        type: float
+      total_amount:
+        type: float
