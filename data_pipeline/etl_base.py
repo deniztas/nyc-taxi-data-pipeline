@@ -15,11 +15,6 @@ class EtlBase():
     def __init__(self, table_name: str):
         pipeline_config = get_config()
 
-        self.transformers = [
-            self.seperate_date_columns,
-            self.convert_to_boolean
-        ]
-
         data_configs = pipeline_config.get("data")
         self.data_retention = data_configs.get("retention_N_months")
         self.output_parquet_dir = data_configs.get("output_parquet_dir")
@@ -171,6 +166,6 @@ class EtlBase():
             raw_data_path=self.output_parquet_dir,
             file_type="parquet"
         )
-       a = query.get_day_of_week_has_min_passenger_count(df)
-       b = query.get_top_3_bussiest_hours(df)
-       c = query.calculate_avarage_distance(df)
+        a = query.get_day_of_week_has_min_passenger_count(df)
+        b = query.get_top_3_bussiest_hours(df)
+        c = query.calculate_avarage_distance(df)

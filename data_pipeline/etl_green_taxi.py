@@ -8,6 +8,7 @@ class EtlGreenTaxi(EtlBase):
         super().__init__(table_name=table_name)
         self.transformers = [
             self.rename_columns,
+            self.remove_redundant_year_records,
             self.seperate_date_columns,
             self.convert_to_boolean,
         ]
