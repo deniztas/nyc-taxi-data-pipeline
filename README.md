@@ -1,17 +1,25 @@
 # nyc-taxi-data-pipeline
+## About Project
 Data pipeline of NYC taxis historic data
 
 This repo provides scripts to download and preprocess data for billions of taxi rides that started in New York City for last 3 years. The raw data comes from [historical data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) of **The New York City Taxi and Limousine Commission**
 
-# Instructions
-1. **Download Docker if does not exist**
-2. **Execute *docker build -t myimage .* command in the directory where the docker file is located**
-3. **Execute *docker run -d -p 8080:8080 myimage* command**
+### Built With
+-  Python
+-  Spark
+-  Airflow
+
+## Getting Started
+### Prerequisites
+-  Download Docker if does not exist
+### Instructions
+1. **Execute *docker build -t myimage .* command in the directory where the docker file is located**
+2. **Execute *docker run -d -p 8080:8080 myimage* command**
 ⋅⋅⋅This command build and docker image that containd Airflow. You will access the Airflow user interface from http://localhost:8080/ after all requirements are installed.
-4. **Before the trigger dag you may want to minimize the data to be downloaded.**
+3. **Before the trigger dag you may want to minimize the data to be downloaded.**
 ...Go to data_pipeline/config.yaml. You will see a parameter named **retention_N_months**. This parameter keeps how many months to go back from 2020. If you don't want to install whole 3 years data, you can reduce this value.
-5. **Click the nyc_taxi_etl and Trigger DAG**
-# Pipeline Definition
+4. **Click the nyc_taxi_etl and Trigger DAG**
+### Pipeline Definition
 -   green_taxi and yellow_taxi tasks execute the data_pipeline/green_taxi_etl.py and data_pipeline/yellow_taxi_etl.py. These classes derived from etl_base.py
 -   csv url, output parquet and input parquet paths are retrieved with the help of config.py. run_etl function in the base is executed from sub classes. And pipeline starts.
 -   run_extract function calculates dynamically the path of the csv file as much as value of the data_retention parameter and downloads it if it is not in the relevant directory.
