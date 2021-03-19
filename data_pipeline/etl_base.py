@@ -68,9 +68,11 @@ class EtlBase():
             else:
                 logging.warn(f"{local_path} does not exist."
                              f"Downloading from: {tlc_path}")
-                #myfile = requests.get(tlc_path)
-                #with open(local_path, "wb") as local_file:
-                #    local_file.write(myfile.content)
+                myfile = requests.get(tlc_path)
+                if not os.path.exists(self.local_dir):
+                    os.makedirs(self.local_dir)
+                with open(local_path, "wb") as local_file:
+                    local_file.write(myfile.content)
                 logging.warn(f"{tlc_path} is downloaded.")
 
         for filename in os.listdir(self.local_dir):

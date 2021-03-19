@@ -1,7 +1,7 @@
 tables:
   green_tripdata:
     taxi_type: green
-    tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data/
+    tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data
     local_dir: /raw_data_csv
     file_format: green_tripdata_YEAR-MONTH.csv
     schema:
@@ -45,7 +45,7 @@ tables:
         type: int
   yellow_tripdata:
     taxi_type: yellow
-    tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data/
+    tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data
     local_dir: /raw_data_csv
     file_format: yellow_tripdata_YEAR-MONTH.csv
     schema:

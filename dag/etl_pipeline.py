@@ -5,8 +5,6 @@ from omegaconf import OmegaConf
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.bash_operator import BashOperator
-from airflow.operators.python_operator import PythonOperator
-from data_pipeline.correctness_queries import validate_correctness
 
 
 dag_script_path = os.path.dirname(os.path.abspath(__file__))
@@ -55,11 +53,5 @@ yellow_taxi = BashOperator(
     bash_command=config.bash_command_yellow_taxi,
     dag=dag
 )
-validate_correctness_queries = PythonOperator(
-    task_id="validate_correctness_queries",
-    dag=dag,
-    python_callable=validate_correctness
-)
+etl_start >> [green_taxi, yellow_taxi] >> completed
 
-etl_start >> [green_taxi, yellow_taxi] >> validate_correctness_queries
-validate_correctness_queries >> completed
