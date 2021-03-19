@@ -18,9 +18,9 @@ class EtlBase():
         self.data_retention = data_configs.get("retention_N_months")
         self.output_parquet_dir = data_configs.get("output_parquet_dir")
         self.output_avro_dir = data_configs.get("output_avro_dir")
-        # TODO get year and month programitally
-        self.current_year = 2018
-        self.current_month = 1
+        # TODO last existed data. To do authomatically get current date
+        self.current_year = 2020
+        self.current_month = 12
 
         schema_file_name = data_configs.get("schema_file")
         table_schema = get_table_schema(
