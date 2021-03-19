@@ -5,7 +5,7 @@ import logging
 from pyspark.sql.utils import AnalysisException
 from pyspark.sql import DataFrame, functions as F
 
-from config import get_config, get_table_schema
+from data_pipeline.config import get_config, get_table_schema
 from helper.read_write import read_data, write_data
 
 
