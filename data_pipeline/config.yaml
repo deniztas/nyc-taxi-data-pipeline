@@ -1,7 +1,7 @@
 pipeline:
   data:
     # Test this with 36 months if you have internet
-    retention_N_months: 1
+    retention_N_months: 36
     schema_file: 'schema.yaml'
     output_parquet_dir: /output_parquet
     output_avro_dir: /output_avro
