@@ -16,8 +16,10 @@ This repo provides scripts to download and preprocess data for billions of taxi 
 ### Instructions
 1. **Execute ```docker build -t myimage .``` command in the directory where the docker file is located**
 2. **Execute ```docker run -d --rm -v output_parquet:/output_parquet -v output_avro:/output_avro -p 8080:8080 myimage``` command**
-⋅⋅⋅This command build and docker image that containd Airflow. You will access the Airflow user interface from ```http://localhost:8080/``` after all requirements are installed. This is what the pipeline looks like.
+
+...This command build and docker image that containd Airflow. You will access the Airflow user interface from ```http://localhost:8080/``` after all requirements are installed. This is what the pipeline looks like.
 3. **Before the execute following command you may want to minimize the data to be downloaded.**
+
 ...Go to `data_pipeline/config.yaml`. You will see a parameter named `retention_N_months`. This parameter keeps how many months to go back from 2020-12. If you don't want to install whole 3 years data, you can reduce this value.
 4. **Commands**
 - Open  a terminal in the project folder.
