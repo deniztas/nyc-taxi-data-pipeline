@@ -3,9 +3,9 @@ pipeline:
     # Test this with 36 months if you have internet
     retention_N_months: 1
     schema_file: 'schema.yaml'
-    output_parquet_dir: /output_parquet/
-    output_avro_dir: /output_avro/
+    output_parquet_dir: /output_parquet
+    output_avro_dir: /output_avro
   query:
-    output_query_min_pass_dir: /output_query/min_passenger_count/
-    output_query_bussiest_hours_dir: /output_query/bussiest_hours/
-    output_query_avr_dist_dir: /output_query/avarage_distance/
+    output_query_min_pass_dir: /output_query/min_passenger_count
+    output_query_bussiest_hours_dir: /output_query/bussiest_hours
+    output_query_avr_dist_dir: /output_query/avarage_distance

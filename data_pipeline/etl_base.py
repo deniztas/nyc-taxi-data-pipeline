@@ -5,7 +5,7 @@ import logging
 from pyspark.sql.utils import AnalysisException
 from pyspark.sql import DataFrame, functions as F
 
-from data_pipeline.config import get_config, get_table_schema
+from config import get_config, get_table_schema
 from helper.read_write import read_data, write_data
 
 
@@ -60,8 +60,8 @@ class EtlBase():
                          str(month) if month >= 10 else "0" + str(month))
             )
             self.raw_file_names_and_year.append((raw_data_name, year))
-            tlc_path = self.tlc_dir + raw_data_name
-            local_path = self.local_dir + raw_data_name
+            tlc_path = os.path.join(self.tlc_dir, raw_data_name)
+            local_path = os.path.join(self.local_dir, raw_data_name)
 
             if os.path.exists(local_path):
                 logging.warn(f"{local_path} exist.")
@@ -88,7 +88,7 @@ class EtlBase():
 
         # Iterate extracted dataset
         for raw_file_name, year in self.raw_file_names_and_year:
-            raw_data_path = self.local_dir + raw_file_name
+            raw_data_path = os.path.join(self.local_dir, raw_file_name)
             self.data_year = year
 
             logging.info(f"Reading {raw_data_path}.")
