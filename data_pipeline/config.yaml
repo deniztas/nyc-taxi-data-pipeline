@@ -1,7 +1,11 @@
 pipeline:
   data:
-    # TODO(deniztas): Test this with 36 months if you have internet
+    # Test this with 36 months if you have internet
     retention_N_months: 1
     schema_file: 'schema.yaml'
-    output_parquet_dir: D:\nyc-taxi-data-pipeline\output_parquet\
-    output_avro_dir: D:\nyc-taxi-data-pipeline\output_avro\
+    output_parquet_dir: /nyc-taxi-data-pipeline/output_parquet
+    output_avro_dir: /nyc-taxi-data-pipeline/output_avro
+  query:
+    output_query_min_pass_dir: /nyc-taxi-data-pipeline/output_query/min_passenger_count
+    output_query_bussiest_hours_dir: /nyc-taxi-data-pipeline/output_query/bussiest_hours
+    output_query_avr_dist_dir: /nyc-taxi-data-pipeline/output_query/avarage_distance

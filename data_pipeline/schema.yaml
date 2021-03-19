@@ -2,8 +2,7 @@ tables:
   green_tripdata:
     taxi_type: green
     tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data/
-    local_dir: D:\nyc-taxi-data-pipeline\raw_data_csv\
-    # TODO(deniztas): Test if yaml/omegaconf allows special characters, if so change to `green_tripdata_${YEAR}-${MONTH}.csv`
+    local_dir: /raw_data_csv/
     file_format: green_tripdata_YEAR-MONTH.csv
     schema:
       VendorID:
@@ -47,8 +46,7 @@ tables:
   yellow_tripdata:
     taxi_type: yellow
     tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data/
-    local_dir: D:\nyc-taxi-data-pipeline\raw_data_csv\
-    # TODO(deniztas): Test if yaml/omegaconf allows special characters, if so change to `yellow_tripdata_${YEAR}-${MONTH}.csv`
+    local_dir: /raw_data_csv/
     file_format: yellow_tripdata_YEAR-MONTH.csv
     schema:
       VendorID:

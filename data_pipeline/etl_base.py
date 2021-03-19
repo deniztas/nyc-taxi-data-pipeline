@@ -7,7 +7,6 @@ from pyspark.sql import DataFrame, functions as F
 
 from config import get_config, get_table_schema
 from helper.read_write import read_data, write_data
-from data_pipeline import correctness_queries as query
 
 
 class EtlBase():
@@ -35,7 +34,6 @@ class EtlBase():
     def run_etl(self):
         self.run_extract()
         self.run_transform_and_load()
-     #   self.validate_correctness()
 
     def run_extract(self):
         """Extracts dataset from TLC."""
@@ -109,14 +107,11 @@ class EtlBase():
             for transform_func in self.transformers:
                 data = transform_func(data)
 
-            # TODO can "os" do that? something like os.path.join([dir, taxi_type, file_name])?
-            parquet_path = self.output_parquet_dir + "taxi_type=" + self.taxi_type
+            parquet_path = os.path.join(self.output_parquet_dir, "taxi_type=" + self.taxi_type)
             logging.info(f"Saving output to {parquet_path}.")
             self.load_output(data=data, output_path=parquet_path, file_type="parquet")
 
-            # TODO can "os" do that? something like os.path.join([dir, taxi_type, file_name])?
-            # TODO double check if this really saves in avro format.
-            avro_path = self.output_avro_dir + "taxi_type=" + self.taxi_type
+            avro_path = os.path.join(self.output_avro_dir, "taxi_type=" + self.taxi_type)
             logging.info(f"Saving output to {avro_path}.")
             self.load_output(data=data, output_path=avro_path, file_type="avro")
 
@@ -159,13 +154,3 @@ class EtlBase():
             "store_and_fwd_flag",
             F.when(F.col("store_and_fwd_flag") == "N", False).otherwise(True))
         return data
-
-    def validate_correctness(self):
-        """Validate correctness of dataset."""
-        df = read_data(
-            raw_data_path=self.output_parquet_dir,
-            file_type="parquet"
-        )
-        a = query.get_day_of_week_has_min_passenger_count(df)
-        b = query.get_top_3_bussiest_hours(df)
-        c = query.calculate_avarage_distance(df)

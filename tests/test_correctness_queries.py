@@ -35,7 +35,8 @@ class TestCorrectnessQueries(unittest.TestCase):
             (1, "2020", "3", "5"),
             (1, "2020", "6", "4"),
             (1, "2020", "10", "4"),
-            (4, "2020", "9", "4")
+            (4, "2020", "9", "4"),
+            (4, "2018", "12", "6")
         ]
         test_df_schema = StructType([
             StructField("passenger_count", IntegerType(), False),
