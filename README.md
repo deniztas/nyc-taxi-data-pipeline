@@ -25,11 +25,12 @@ This repo provides scripts to download and preprocess data for billions of taxi 
 - Open  a terminal in the project folder.
 - Execute following command to set python path the project path. ```export PYTHONPATH="${PYTHONPATH}:/path/to/your/project/"``` for For UNIX (Linux, OSX, ...), ```set PYTHONPATH=%PYTHONPATH%;C:\path\to\your\project\``` for Windows
 - Execute ```pip insyall requirements.txt``` command.
+- The input and output paths have been adjusted according to the project folder in the docker file. Before execute the project in local, set ```project_path``` parameter in the ```config.yaml``` and ```schema.yaml``` as local project path.
 - ```spark-submit --jars spark/jars/spark-avro_2.11-2.4.3.jar data_pipeline/etl_green_taxi.py```
 - After this command parquet and avro files will be in the output_parquet and output_avro folders for green taxi
 - ```spark-submit --jars spark/jars/spark-avro_2.11-2.4.3.jar data_pipeline/etl_yellow_taxi.py```
 - After this command parquet and avro files will be in the output_parquet and output_avro folders for yellow taxi
-4. **~~Click the `nyc_taxi_etl` and Trigger DAG~~**
+5. **~~Switch from off to on the DAG, click the `nyc_taxi_etl` and Trigger DAG~~**
 - Output folders in the container are not synchronous with the local output folders.
 ### Pipeline Definition
 -   `green_taxi` and `yellow_taxi` tasks execute the `data_pipeline/green_taxi_etl.py` and `data_pipeline/yellow_taxi_etl.py`. These classes derived from `etl_base.py`
