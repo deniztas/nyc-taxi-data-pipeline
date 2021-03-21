@@ -1,8 +1,9 @@
+project_path: "/"
 tables:
   green_tripdata:
     taxi_type: green
     tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data
-    local_dir: /raw_data_csv
+    local_dir: "${project_path}raw_data_csv"
     file_format: green_tripdata_YEAR-MONTH.csv
     schema:
       VendorID:
@@ -46,7 +47,7 @@ tables:
   yellow_tripdata:
     taxi_type: yellow
     tlc_dir: https://s3.amazonaws.com/nyc-tlc/trip+data
-    local_dir: /raw_data_csv
+    local_dir: "${project_path}raw_data_csv"
     file_format: yellow_tripdata_YEAR-MONTH.csv
     schema:
       VendorID:

@@ -1,11 +1,12 @@
+project_path: "/"
 pipeline:
   data:
     # Test this with 36 months if you have internet
     retention_N_months: 36
     schema_file: 'schema.yaml'
-    output_parquet_dir: /output_parquet
-    output_avro_dir: /output_avro
+    output_parquet_dir: "${project_path}output_parquet"
+    output_avro_dir: "${project_path}output_avro"
   query:
-    output_query_min_pass_dir: /output_query/min_passenger_count
-    output_query_bussiest_hours_dir: /output_query/bussiest_hours
-    output_query_avr_dist_dir: /output_query/avarage_distance
+    output_query_min_pass_dir: "${project_path}output_query/min_passenger_count"
+    output_query_bussiest_hours_dir: "${project_path}output_query/bussiest_hours"
+    output_query_avr_dist_dir: "${project_path}output_query/avarage_distance"

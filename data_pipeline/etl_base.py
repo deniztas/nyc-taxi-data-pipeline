@@ -93,7 +93,7 @@ class EtlBase():
             raw_data_path = os.path.join(self.local_dir, raw_file_name)
             self.data_year = year
 
-            logging.info(f"Reading {raw_data_path}.")
+            logging.warn(f"Reading {raw_data_path}.")
             try:
                 data = read_data(
                     raw_data_path=raw_data_path,
@@ -104,22 +104,22 @@ class EtlBase():
                 logging.critical(f"Csv file not found in path: {raw_data_path}.")
                 raise ex
 
-            logging.info("read_data completed")
+            logging.warn("read_data completed")
 
             for transform_func in self.transformers:
                 data = transform_func(data)
 
             parquet_path = os.path.join(self.output_parquet_dir, "taxi_type=" + self.taxi_type)
-            logging.info(f"Saving output to {parquet_path}.")
+            logging.warn(f"Saving output to {parquet_path}.")
             self.load_output(data=data, output_path=parquet_path, file_type="parquet")
 
             avro_path = os.path.join(self.output_avro_dir, "taxi_type=" + self.taxi_type)
-            logging.info(f"Saving output to {avro_path}.")
+            logging.warn(f"Saving output to {avro_path}.")
             self.load_output(data=data, output_path=avro_path, file_type="avro")
 
-            logging.info(f"transform_and_load applied to {raw_file_name}.")
+            logging.warn(f"transform_and_load applied to {raw_file_name}.")
 
-        logging.info("run_transform_and_load completed")
+        logging.warn("run_transform_and_load completed")
 
     def load_output(self, data: DataFrame, file_type: str, output_path: str):
         """Saves data to output directory."""
